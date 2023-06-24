@@ -16,7 +16,7 @@
     "test": "vitest --coverage",
     "test:ui": "vitest --ui --coverage",
     "build": "tsc",
-    "publish:npm": "vitest --run && pnpm build"
+    "publish:npm": "vitest --run && pnpm build && npm publish --access public"
   },
   "keywords": [
     "redis",
