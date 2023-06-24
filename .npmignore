@@ -1,0 +1,8 @@
+.vscode
+CONTRIBUTING.md
+node_modules
+src
+coverage
+test
+vitest.config.ts
+tsconfig.json
