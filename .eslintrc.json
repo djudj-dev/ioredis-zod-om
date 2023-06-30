@@ -1,0 +1,39 @@
+{
+  "env": {
+      "es2021": true
+  },
+  "extends": [
+      "airbnb-base",
+      "airbnb-typescript/base",
+      "prettier"
+  ],
+  "overrides": [
+  ],
+  "parserOptions": {
+      "project": "./tsconfig.json",
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+  },
+  "plugins": [
+      "@typescript-eslint",
+      "import",
+      "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": ["warn",
+        {
+            "trailingComma": "es5",
+            "tabWidth": 2,
+            "singleQuote": true,
+            "printWidth": 100,
+            "bracket-pacing": true,
+            "bracketSameLine": false,
+            "arrowParens": "always"
+        }],
+      "prefer-const": "error",
+      "no-var": "error",
+      "no-console":  "off",
+      "import/prefer-default-export": "off"
+  },
+  "parser": "@typescript-eslint/parser"
+}

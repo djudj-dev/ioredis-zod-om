@@ -1,6 +1,6 @@
-import { ZodError } from "zod";
-import { ErrorType, IoredisZodOmError } from "./ioredis-zod-om-error";
-import { string } from "./string";
+import { ZodError } from 'zod';
+import { ErrorType, IoredisZodOmError } from './ioredis-zod-om-error';
+import { string } from './string';
 
 export const fnErrorCatcher =
   <T extends (option: any) => any>(fn: T) =>

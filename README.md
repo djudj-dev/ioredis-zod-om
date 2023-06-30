@@ -4,7 +4,7 @@ A small library that uses zod and ioredis to create typesafe schemas for an easy
 
 ## Authors
 
-- [@Djudj_dev](https://github.com/Juju23dev)
+- [@Djudj_dev](https://github.com/djudj-dev)
 
 ## Install
 
