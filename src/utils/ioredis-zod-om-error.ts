@@ -1,15 +1,17 @@
-import { ZodError } from "zod";
+import { ZodError } from 'zod';
 
 export const enum ErrorType {
-  UndefinedReturn = "Undefined return",
-  BadReturn = "Bad return",
-  BadParams = "Bad parameters",
-  UnknownError = "Unknown error",
+  UndefinedReturn = 'Undefined return',
+  BadReturn = 'Bad return',
+  BadParams = 'Bad parameters',
+  UnknownError = 'Unknown error',
 }
 
 export class IoredisZodOmError extends Error {
   public errorType;
+
   public zodErrors;
+
   public unknownError;
 
   constructor({
@@ -20,7 +22,7 @@ export class IoredisZodOmError extends Error {
   }: {
     message: string;
     errorType: ErrorType;
-    zodErrors?: ZodError["errors"];
+    zodErrors?: ZodError['errors'];
     unknownError?: unknown;
   }) {
     super();

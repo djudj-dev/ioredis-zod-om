@@ -1,4 +1,4 @@
-import { createSchema } from "./utils/create-schema";
+import { createSchema } from './utils/create-schema';
 
 export default {
   createSchema,

@@ -10,12 +10,12 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "start:watch": "ts-node-dev src/index.ts",
-    "start:build": "node dist/index.js",
-    "test": "vitest --coverage",
-    "test:ui": "vitest --ui --coverage",
-    "build": "tsc",
+    "start": "eslint . && ts-node src/index.ts",
+    "start:watch": "eslint . && ts-node-dev src/index.ts",
+    "start:build": "eslint . && node dist/index.js",
+    "test": "eslint . && vitest --coverage",
+    "test:ui": "eslint . && vitest --ui --coverage",
+    "build": "eslint . && tsc",
     "publish:npm": "vitest --run && pnpm build && npm publish --access public"
   },
   "keywords": [
@@ -31,6 +31,11 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^0.32.2",
     "@vitest/ui": "^0.32.2",
+    "eslint": "^8.43.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "ioredis": "^5.3.2",
     "ioredis-mock": "^8.7.0",
     "ts-node": "^10.9.1",

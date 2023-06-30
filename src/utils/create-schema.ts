@@ -1,8 +1,9 @@
-import { z } from "zod";
-import { Redis } from "ioredis";
-import { fnErrorCatcher, fnSafeErrorCatcher } from "./wrap-fn-error";
-import { ErrorType, IoredisZodOmError } from "./ioredis-zod-om-error";
-import { string } from "./string";
+import { z } from 'zod';
+// eslint-disable-next-line
+import { Redis } from 'ioredis';
+import { fnErrorCatcher, fnSafeErrorCatcher } from './wrap-fn-error';
+import { ErrorType, IoredisZodOmError } from './ioredis-zod-om-error';
+import { string } from './string';
 
 const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
   redisClient: Redis,
@@ -32,12 +33,11 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
 
   type Options = {
     persist?: undefined;
-    pexpire?: Parameters<Redis["pexpire"]>[1];
-    expire?: Parameters<Redis["expire"]>[1];
+    pexpire?: Parameters<Redis['pexpire']>[1];
+    expire?: Parameters<Redis['expire']>[1];
   };
 
-  const createCacheIndex = ({ unique }: { unique: UniqueProps }) =>
-    Object.values(unique).join("");
+  const createCacheIndex = ({ unique }: { unique: UniqueProps }) => Object.values(unique).join('');
 
   const deleteOne = async ({ where }: { where: UniqueProps }) => {
     const unique = uniquePropsSchema.parse(where);
@@ -49,21 +49,10 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
     ));
   };
 
-  const get = async ({
-    where,
-    select,
-  }: {
-    where: UniqueProps;
-    select?: SelectOptions;
-  }) => {
+  const get = async ({ where, select }: { where: UniqueProps; select?: SelectOptions }) => {
     const unique = uniquePropsSchema.parse(where);
     const selectObject = select ? selectSchema.parse(select) : defaultSelect;
     const selectKeys = Object.keys(selectObject) as (keyof Props)[];
-    const value = await redisClient.hgetall(
-      createCacheIndex({
-        unique,
-      })
-    );
 
     const redisReturn = z
       .string()
@@ -90,9 +79,7 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
     const returnObject: z.infer<typeof finalUnion> = unique;
 
     selectKeys.forEach((index, arrayIndex) => {
-      returnObject[index] = redisReturn.data[
-        arrayIndex
-      ] as (typeof returnObject)[typeof index];
+      returnObject[index] = redisReturn.data[arrayIndex] as (typeof returnObject)[typeof index];
     });
 
     const finalData = finalUnion.safeParse(returnObject);
@@ -109,9 +96,7 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
     return finalData.data as UniqueProps &
       Pick<
         Props,
-        typeof select extends undefined
-          ? keyof typeof select
-          : keyof typeof defaultSelect
+        typeof select extends undefined ? keyof typeof select : keyof typeof defaultSelect
       >;
   };
 
@@ -126,10 +111,12 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
   }) => {
     const userProps = propsSchema
       .transform((obj) => {
-        for (const propIndex in obj) {
-          obj[propIndex] = JSON.stringify(obj[propIndex]);
-        }
-        return obj;
+        const finalObject: typeof obj = {};
+        Object.entries(obj).forEach(([index, value]) => {
+          finalObject[index] = JSON.stringify(value);
+        });
+
+        return finalObject;
       })
       .parse(data);
     const unique = uniquePropsSchema.parse(data);
@@ -143,18 +130,22 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
     Object.entries(options).forEach((entrie) => {
       const [optionIndex, optionParam] = entrie as PropsEntries<Options>;
 
-      if (typeof pipeline[optionIndex] !== "function") {
+      if (typeof pipeline[optionIndex] !== 'function') {
         // should never append just security
         return;
       }
 
       const fn = pipeline[optionIndex] as CallableFunction;
-      optionParam ? fn(cacheIndex, optionParam) : fn(cacheIndex);
+      if (optionParam !== undefined) {
+        fn(cacheIndex, optionParam);
+      } else {
+        fn(cacheIndex);
+      }
     });
 
     await pipeline.exec();
 
-    return await get({ where: { ...unique }, select });
+    return get({ where: { ...unique }, select });
   };
 
   const update = async ({
@@ -180,7 +171,7 @@ const createSchema = <T extends z.ZodObject<any>, K extends z.ZodObject<any>>(
 
     await pipeline.exec();
 
-    return await get({ where: { ...unique }, select });
+    return get({ where: { ...unique }, select });
   };
 
   return {

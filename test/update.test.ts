@@ -4,7 +4,7 @@ import {
   IoredisZodOmError,
 } from "../src/utils/ioredis-zod-om-error";
 import { string } from "../src/utils/string";
-import { defaultRedisUser, fakeNewUser } from "./fake-data.spec";
+import { defaultRedisUser } from "./fake-data.spec";
 import { user } from "./redis.spec";
 
 describe("schema.create test", () => {
