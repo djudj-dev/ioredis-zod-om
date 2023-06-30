@@ -1,6 +1,6 @@
 {
   "name": "@e2fy/ioredis-zod-om",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library for create typesafe schema for redis with ioRedis and Zod",
   "homepage": "https://github.com/djudj-dev/ioredis-zod-om",
   "repository": {
